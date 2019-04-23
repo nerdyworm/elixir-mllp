@@ -111,11 +111,12 @@ defmodule MLLP.Receiver do
   end
 
   private do
-    defp process_messages(%State{dispatcher_module: dispatcher_module} = state, socket_reply_fun) do
+    defp process_messages(%State{dispatcher_module: dispatcher_module, socket: socket} = state, socket_reply_fun) do
+      {:ok, {peer_ip, _}} = :inet.peername(socket)
       {remnant_buffer, messages} = state.buffer |> extract_messages()
 
       messages
-      |> Enum.each(&process_message(&1, socket_reply_fun, dispatcher_module))
+      |> Enum.each(&process_message(&1, socket_reply_fun, dispatcher_module, peer_ip))
 
       %State{state | buffer: remnant_buffer}
     end
@@ -123,9 +124,10 @@ defmodule MLLP.Receiver do
     defp process_message(
            <<"MSH", _::binary>> = message,
            socket_reply_fun,
-           dispatcher_module
+           dispatcher_module,
+           peer_ip
          ) do
-      result = apply(dispatcher_module, :dispatch, [message])
+      result = apply(dispatcher_module, :dispatch, [message, peer_ip])
 
       ack_message =
         result
