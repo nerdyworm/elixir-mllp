@@ -20,7 +20,6 @@ defmodule SenderTest do
     refute Process.alive?(pid)
   end
 
-
   test "Integration: sending valid HL7 with no receiver" do
     port = 8131
 
@@ -51,20 +50,14 @@ defmodule SenderTest do
     @behaviour MLLP.Dispatcher
 
     def dispatch(message) when is_binary(message) do
-      Logger.warn(fn -> "Test dispatcher handles: #{inspect(message)}"  end)
+      Logger.warn(fn -> "Test dispatcher handles: #{inspect(message)}" end)
       {:ok, :application_accept}
     end
 
     def dispatch(message) do
-      Logger.warn(
-        "Test dispatcher rejects non-string message: #{
-          inspect(message)
-        }"
-      )
+      Logger.warn("Test dispatcher rejects non-string message: #{inspect(message)}")
 
       {:ok, :application_reject}
     end
   end
-
-
 end

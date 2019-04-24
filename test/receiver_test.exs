@@ -63,6 +63,4 @@ defmodule ReceiverTest do
 
     assert {"", ["MSH|blah"]} == Receiver.extract_messages(payload)
   end
-
-
 end
