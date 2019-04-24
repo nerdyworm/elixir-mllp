@@ -163,7 +163,7 @@ defmodule MLLP.Receiver do
             Ack.get_ack_for_message(
               message,
               :application_error,
-              "(#{inspect(error_type)})" <> error_message
+              "(#{inspect(error_type)}) " <> error_message
             )
         end
 
