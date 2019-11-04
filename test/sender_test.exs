@@ -30,7 +30,7 @@ defmodule SenderTest do
     {:ok, :application_error} = Sender.send_message(sender_pid, hl7)
   end
 
-  test "Integration: sending invalid HL7 to a receiver return application reject" do
+  test "Integration: sending invalid HL7 to a receiver returns application reject" do
     port = 8132
     {:ok, %{pid: pid}} = Receiver.start(port)
 
@@ -42,6 +42,17 @@ defmodule SenderTest do
 
     :ok = MLLP.Receiver.stop(port)
     refute Process.alive?(pid)
+  end
+
+  test "Stopping a sender" do
+    port = 8133
+    {:ok, sender_pid} = Sender.start_link({{127, 0, 0, 1}, port})
+
+    assert Process.alive?(sender_pid)
+
+    Sender.stop(sender_pid)
+
+    assert Process.alive?(sender_pid) == false
   end
 
   defmodule TestDispatcher do
