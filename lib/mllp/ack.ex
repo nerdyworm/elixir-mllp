@@ -29,7 +29,7 @@ defmodule MLLP.Ack do
       "????",
       DateTime.utc_now() |> to_string(),
       "",
-      "ACK^O01",
+      "ACK",
       message_control_id,
       "P",
       "2.5"
@@ -56,9 +56,9 @@ defmodule MLLP.Ack do
       |> HL7.Message.find("MSH")
       |> List.replace_at(4, receiving_facility)
       |> List.replace_at(6, sending_facility)
-      |> List.replace_at(3, receiving_application)
-      |> List.replace_at(5, sending_application)
-      |> List.replace_at(9, "ACK^O01")
+      |> List.replace_at(3, receiving_app)
+      |> List.replace_at(5, sending_app)
+      |> List.replace_at(9, "ACK")
 
     msa = ["MSA", code, message_control_id, text_message]
 
