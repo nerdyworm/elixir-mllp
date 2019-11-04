@@ -29,7 +29,7 @@ defmodule MLLP.Ack do
       "????",
       DateTime.utc_now() |> to_string(),
       "",
-      "ACK^O01",
+      "ACK",
       message_control_id,
       "P",
       "2.5"
