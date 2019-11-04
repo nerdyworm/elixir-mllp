@@ -38,7 +38,6 @@ defmodule MLLP.Ack do
     msa = ["MSA", "AR", message_control_id, "Message was not parsable as HL7"]
 
     HL7.Message.new([msh, msa]) |> to_string()
-
   end
 
   defp make_ack_hl7(message, code, text_message) do
@@ -57,7 +56,7 @@ defmodule MLLP.Ack do
       |> List.replace_at(6, sending_facility)
       |> List.replace_at(3, receiving_app)
       |> List.replace_at(5, sending_app)
-      |> List.replace_at(9, "ACK^O01")
+      |> List.replace_at(9, "ACK")
 
     msa = ["MSA", code, message_control_id, text_message]
 
@@ -65,7 +64,6 @@ defmodule MLLP.Ack do
   end
 
   def verify_ack_against_message(%HL7.Message{} = message, %HL7.Message{} = ack) do
-
     message_hl7 = message |> HL7.Message.new()
     ack_hl7 = ack |> HL7.Message.new()
 
